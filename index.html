@@ -1,1 +1,101 @@
-kakki barada?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Class Room</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js"></script>
+
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <img src="Assests/logo.png">  
+    <div class="logo">My Class Room</div>
+  </div>  
+    <nav class="nav-links" id="navLinks">
+    <span class="close-btn" onclick="toggleMenu()">×</span>  
+    <a href="#">Home</a>
+    <a href="#">Courses</a>
+    <a href="#">Tutors</a>
+    <a href="#">Contact</a>
+    <button class="login-btn" onclick="openModal()">Sign Up</button>
+    </nav>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+</header>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+
+<section class="hero">
+  <h1 class="h1">Bright<span class="gradient-text"> Your Future </span>with us.</h1>
+  <p>Join thousands of students and improve your skills</p>
+  <button class="get-st" onclick="openModal()">Get Started</button>
+</section>
+
+<section class="slider">
+  <h2>Featured Courses</h2>
+  <div class="slider-container">
+    <div class="slide">Math Mastery</div>
+    <div class="slide">Science Boost</div>
+    <div class="slide">ICT Pro</div>
+    <div class="slide">English Skills</div>
+  </div>
+</section>
+
+<section class="tutors">
+  <h2 style="font-size: xx-large;">Top Tutors</h2>
+  <div class="tutor-cards">
+    <div class="tutor">
+      <img src="Assests/Tutors/dinuka sir.jpg">
+      <p>Mr. Dinuka Roshan</p>
+    </div>
+    <div class="tutor">
+      <img src="Assests/Tutors/nethsara sir.jpg">
+      <p>Mr. Nethsara Marasinghe</p>
+    </div>
+    <div class="tutor">
+      <img src="Assests/Tutors/inoka sir.jpg">
+      <p>Mr. Inoka Bandara</p>
+    </div>
+  </div>
+</section>
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span onclick="closeModal()" class="close">&times;</span>
+    <h2>Login</h2>
+    <input type="text" placeholder="Email"><br><br>
+    <input type="password" placeholder="Password"><br><br>
+    <button>Login</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 My Class Room</p>
+</footer>
+
+<script>
+function openModal() {
+  document.getElementById("loginModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("loginModal").style.display = "none";
+}
+
+const elements = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+  elements.forEach(el => {
+    const pos = el.getBoundingClientRect().top;
+    if (pos < window.innerHeight - 100) {
+      el.classList.add("show");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
