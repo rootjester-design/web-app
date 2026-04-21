@@ -200,16 +200,21 @@ nav a {
 
 /* TUTORS */
 .tutors {
-  padding: 40px;
+    font-weight: 800;
   text-align: center;
 }
 .tutor-cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+    display: flex;
+  overflow-x: auto;
+
 }
 .tutor img {
   border-radius: 50%;
+}
+.tutor {
+    scale: 40%;
+    font-size: xx-large;
+    font-weight: 500;
 }
 
 /* MODAL */
@@ -234,7 +239,7 @@ nav a {
 /* SCROLL ANIMATION */
 section {
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(100px);
   transition: 0.5s;
 }
 section.show {
