@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 — MyClassRoom.LK</title>
+<link rel="stylesheet" href="/css/global.css">
+<style>
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.err-wrap{position:relative;z-index:2;max-width:480px}
+.err-code{font-family:'Syne',sans-serif;font-size:8rem;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--red),var(--red2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+h1{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:.8rem}
+p{color:var(--text2);margin-bottom:2rem;font-weight:300;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur-ring"></div>
+<div class="blobs" style="position:fixed"><div class="blob b1"></div><div class="blob b2"></div></div>
+<div class="err-wrap fade-up">
+  <div class="err-code">404</div>
+  <h1>Page Not Found</h1>
+  <p>The page you're looking for doesn't exist or has been moved.</p>
+  <a href="/" class="btn btn-red btn-lg">← Back to Home</a>
+</div>
+<script src="/js/global.js"></script>
+</body>
+</html>
