@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyClassRoom.LK — Learn Smarter</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+  transition:background .4s,color .4s;
+}
+
+/* ─── CUSTOM CURSOR ───────────────────────────────────── */
+#cursor{
+  position:fixed;width:12px;height:12px;
+  background:radial-gradient(circle,#ff2020,#b30000);
+  border-radius:50%;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s,width .2s,height .2s,opacity .2s;
+  mix-blend-mode:screen;
+}
+#cursor-ring{
+  position:fixed;width:38px;height:38px;
+  border:1.5px solid rgba(255,40,40,.45);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .18s ease,width .25s,height .25s,border-color .25s;
+}
+body:hover #cursor{opacity:1}
+
+/* ─── CSS VARS ─────────────────────────────────────────── */
+:root{
+  --red:#e8000e;
+  --red2:#ff3c3c;
+  --red3:#ff6060;
+  --glass-bg:rgba(255,255,255,.04);
+  --glass-border:rgba(255,255,255,.08);
+  --glass-glow:rgba(232,0,14,.35);
+  --dark:#0d0d0d;
+  --charcoal:#111;
+  --white:#fff;
+  --gray:#aaa;
+  /* theme tokens */
+  --bg:#080808;
+  --bg2:#101010;
+  --surface:rgba(255,255,255,.04);
+  --surface-border:rgba(255,255,255,.08);
+  --text:#ffffff;
+  --text-muted:rgba(255,255,255,.55);
+  --text-soft:rgba(255,255,255,.45);
+  --nav-bg:rgba(8,8,8,.55);
+  --nav-bg-scrolled:rgba(8,8,8,.88);
+  --footer-bg:rgba(6,6,6,.95);
+  --footer-border:rgba(255,255,255,.06);
+  --mobile-nav-bg:rgba(10,10,10,.95);
+  --scrollbar-track:#0d0d0d;
+  --section-sub-color:rgba(255,255,255,.5);
+  --step-p-color:rgba(255,255,255,.45);
+  --testi-p-color:rgba(255,255,255,.7);
+  --footer-text:rgba(255,255,255,.4);
+  --footer-link:rgba(255,255,255,.5);
+  --footer-copy:rgba(255,255,255,.3);
+  --social-bg:rgba(255,255,255,.05);
+  --social-border:rgba(255,255,255,.08);
+  --social-color:rgba(255,255,255,.6);
+  --testi-btn-bg:rgba(255,255,255,.06);
+  --testi-btn-border:rgba(255,255,255,.1);
+  --testi-btn-color:#fff;
+  --cta-bg:rgba(255,255,255,.03);
+  --course-card-border:rgba(255,255,255,.07);
+  --btn-glass-bg:rgba(255,255,255,.07);
+  --btn-glass-border:rgba(255,255,255,.18);
+  --btn-glass-color:#fff;
+  --particle-light:rgba(255,255,255,.08);
+}
+
+/* ── LIGHT MODE OVERRIDES ──────────────────────────────── */
+html.light{
+  --bg:#f0f0f2;
+  --bg2:#e8e8ec;
+  --surface:rgba(255,255,255,.65);
+  --surface-border:rgba(0,0,0,.08);
+  --text:#111111;
+  --text-muted:rgba(20,20,20,.6);
+  --text-soft:rgba(20,20,20,.5);
+  --nav-bg:rgba(240,240,242,.72);
+  --nav-bg-scrolled:rgba(240,240,242,.96);
+  --footer-bg:rgba(225,225,230,.98);
+  --footer-border:rgba(0,0,0,.08);
+  --mobile-nav-bg:rgba(240,240,242,.98);
+  --scrollbar-track:#e0e0e4;
+  --section-sub-color:rgba(20,20,20,.5);
+  --step-p-color:rgba(20,20,20,.5);
+  --testi-p-color:rgba(20,20,20,.65);
+  --footer-text:rgba(20,20,20,.55);
+  --footer-link:rgba(20,20,20,.6);
+  --footer-copy:rgba(20,20,20,.4);
+  --social-bg:rgba(0,0,0,.06);
+  --social-border:rgba(0,0,0,.1);
+  --social-color:rgba(20,20,20,.6);
+  --testi-btn-bg:rgba(0,0,0,.06);
+  --testi-btn-border:rgba(0,0,0,.12);
+  --testi-btn-color:#111;
+  --cta-bg:rgba(255,255,255,.55);
+  --course-card-border:rgba(0,0,0,.08);
+  --btn-glass-bg:rgba(0,0,0,.07);
+  --btn-glass-border:rgba(0,0,0,.18);
+  --btn-glass-color:#111;
+  --particle-light:rgba(0,0,0,.06);
+}
+
+/* ── THEME TOGGLE BUTTON ──────────────────────────────── */
+.theme-toggle{
+  width:48px;height:26px;border-radius:50px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  position:relative;cursor:none;flex-shrink:0;
+  transition:background .35s,border-color .35s;
+  display:flex;align-items:center;
+}
+html.light .theme-toggle{
+  background:rgba(0,0,0,.1);
+  border-color:rgba(0,0,0,.18);
+}
+.theme-toggle-thumb{
+  position:absolute;left:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,#ffd700,#ff9500);
+  box-shadow:0 0 8px rgba(255,180,0,.6);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .35s,box-shadow .35s;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;
+}
+html.light .theme-toggle-thumb{
+  transform:translateX(22px);
+  background:linear-gradient(135deg,#1a1a2e,#16213e);
+  box-shadow:0 0 8px rgba(100,120,255,.5);
+}
+.theme-toggle-icon{line-height:1;user-select:none}
+/* sun rays animation */
+@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.theme-toggle:not(.dark-active) .theme-toggle-thumb{animation:none}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--scrollbar-track)}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:4px}
+
+/* ─── GLASS UTILITY ─────────────────────────────────────── */
+.glass{
+  background:var(--surface);
+  backdrop-filter:blur(18px) saturate(180%);
+  -webkit-backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid var(--surface-border);
+  border-radius:20px;
+  transition:background .4s,border-color .4s;
+}
+html.light .glass{
+  background:rgba(255,255,255,.6);
+  border-color:rgba(0,0,0,.09);
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+}
+.glass-red{border-color:rgba(232,0,14,.3);box-shadow:0 0 24px rgba(232,0,14,.12),inset 0 0 20px rgba(232,0,14,.04)}
+
+/* ─── ANIMATED BLOBS ────────────────────────────────────── */
+.blob-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.blob{
+  position:absolute;border-radius:50%;filter:blur(90px);
+  opacity:.35;animation:blobFloat 12s ease-in-out infinite alternate;
+}
+.blob1{width:700px;height:700px;background:radial-gradient(circle,#c0000a 0%,transparent 70%);top:-20%;left:-15%;animation-duration:14s}
+.blob2{width:500px;height:500px;background:radial-gradient(circle,#ff2222 0%,transparent 70%);top:30%;right:-10%;animation-duration:18s;animation-delay:-5s}
+.blob3{width:400px;height:400px;background:radial-gradient(circle,#600010 0%,transparent 70%);bottom:-5%;left:30%;animation-duration:16s;animation-delay:-3s}
+@keyframes blobFloat{
+  0%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(40px,30px) scale(1.08)}
+  100%{transform:translate(-30px,20px) scale(.95)}
+}
+
+/* ─── PARTICLES ─────────────────────────────────────────── */
+#particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.45}
+
+/* ─── NAVBAR ────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:0 6%;
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+  background:var(--nav-bg);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--surface-border);
+  transition:background .3s,border-color .4s;
+}
+nav.scrolled{background:var(--nav-bg-scrolled)}
+.logo{
+  font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;
+  color:var(--text);letter-spacing:-.02em;text-decoration:none;
+  display:flex;align-items:center;gap:.5rem;
+  transition:color .4s;
+}
+.logo span{color:var(--red)}
+.logo-dot{
+  width:8px;height:8px;background:var(--red);border-radius:50%;
+  box-shadow:0 0 10px var(--red);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px var(--red)}50%{box-shadow:0 0 22px var(--red2)}}
+.nav-links{display:flex;align-items:center;gap:2.2rem;list-style:none}
+.nav-links a{
+  color:var(--text-muted);text-decoration:none;font-size:.9rem;
+  font-weight:500;letter-spacing:.02em;
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;
+  background:var(--red);transition:width .3s;border-radius:2px;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:.9rem}
+.btn-signup{
+  background:linear-gradient(135deg,var(--red),#900008);
+  color:#fff;border:none;padding:.55rem 1.4rem;
+  border-radius:50px;font-family:'DM Sans',sans-serif;
+  font-size:.88rem;font-weight:600;cursor:none;
+  box-shadow:0 0 20px rgba(232,0,14,.4);
+  transition:box-shadow .25s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.btn-signup::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.btn-signup:hover{box-shadow:0 0 36px rgba(255,60,60,.65);transform:translateY(-1px)}
+.btn-signup:hover::before{opacity:1}
+
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;z-index:1001}
+.hamburger span{
+  display:block;width:26px;height:2px;background:var(--text);border-radius:2px;
+  transition:transform .35s,opacity .3s,background .4s;
+}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* mobile nav */
+.mobile-nav{
+  position:fixed;top:72px;right:-100%;width:min(340px,90vw);height:calc(100vh - 72px);
+  background:var(--mobile-nav-bg);backdrop-filter:blur(30px);
+  border-left:1px solid var(--surface-border);
+  padding:2rem;display:flex;flex-direction:column;gap:1.5rem;
+  transition:right .45s cubic-bezier(.77,0,.18,1),background .4s;z-index:999;
+}
+.mobile-nav.open{right:0}
+.mobile-nav a{
+  font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;
+  color:var(--text-muted);text-decoration:none;
+  border-bottom:1px solid var(--surface-border);padding-bottom:1rem;
+  transition:color .2s;
+}
+.mobile-nav a:hover{color:var(--red)}
+
+/* ─── SECTIONS WRAPPER ──────────────────────────────────── */
+section{position:relative;z-index:1;overflow:hidden}
+
+/* ─── HERO ──────────────────────────────────────────────── */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:120px 6% 80px;
+}
+.hero-inner{max-width:800px;position:relative;z-index:2}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:rgba(232,0,14,.12);
+  border:1px solid rgba(232,0,14,.3);
+  border-radius:50px;padding:.38rem 1rem;
+  font-size:.8rem;color:var(--red2);font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:1.8rem;
+  animation:fadeUp .7s ease both;
+}
+.hero-badge-dot{width:6px;height:6px;background:var(--red2);border-radius:50%;animation:pulse 1.8s infinite}
+h1.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.8rem,7vw,5.8rem);
+  font-weight:800;line-height:1.05;letter-spacing:-.04em;
+  margin-bottom:1.4rem;
+  animation:fadeUp .8s .1s ease both;
+}
+h1.hero-title em{
+  font-style:normal;
+  background:linear-gradient(120deg,var(--red),var(--red2),#ff7c7c);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:1.15rem;color:var(--text-muted);line-height:1.7;
+  max-width:540px;margin-bottom:2.5rem;font-weight:300;
+  animation:fadeUp .8s .2s ease both;
+}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+.btn-primary{
+  background:linear-gradient(135deg,var(--red),#8b0000);
+  color:#fff;border:none;padding:.85rem 2rem;
+  border-radius:50px;font-family:'DM Sans',sans-serif;
+  font-size:1rem;font-weight:600;cursor:none;
+  box-shadow:0 0 30px rgba(232,0,14,.5),0 4px 20px rgba(0,0,0,.4);
+  transition:box-shadow .3s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:'';position:absolute;top:50%;left:50%;
+  width:0;height:0;background:rgba(255,255,255,.25);
+  border-radius:50%;transform:translate(-50%,-50%);
+  transition:width .5s,height .5s,opacity .5s;opacity:1;
+}
+.btn-primary:active::after{width:300px;height:300px;opacity:0}
+.btn-primary:hover{box-shadow:0 0 50px rgba(255,40,40,.7),0 8px 30px rgba(0,0,0,.5);transform:translateY(-2px)}
+.btn-glass{
+  background:var(--btn-glass-bg);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--btn-glass-border);
+  color:var(--btn-glass-color);padding:.85rem 2rem;
+  border-radius:50px;font-family:'DM Sans',sans-serif;
+  font-size:1rem;font-weight:500;cursor:none;
+  transition:background .25s,border-color .25s,transform .2s,color .4s;
+}
+.btn-glass:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+html.light .btn-glass:hover{background:rgba(0,0,0,.1);border-color:rgba(0,0,0,.25)}
+
+/* hero floating shapes */
+.hero-float-wrap{
+  position:absolute;right:-5%;top:50%;transform:translateY(-50%);
+  pointer-events:none;opacity:.8;
+  animation:fadeUp .9s .4s ease both;
+}
+.hero-float-card{
+  width:280px;padding:1.5rem;
+  border-radius:24px;
+}
+.hf-stat{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.hf-stat:last-child{margin-bottom:0}
+.hf-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(232,0,14,.18);border:1px solid rgba(232,0,14,.3);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;
+}
+.hf-num{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;line-height:1;color:var(--text)}
+.hf-label{font-size:.78rem;color:var(--text-soft)}
+
+/* ─── FEATURES ──────────────────────────────────────────── */
+#features{padding:100px 6%}
+.section-label{
+  font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--red);font-weight:700;margin-bottom:.8rem;
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);
+  font-weight:800;letter-spacing:-.03em;margin-bottom:1rem;
+  color:var(--text);transition:color .4s;
+}
+.section-sub{color:var(--section-sub-color);font-size:1rem;max-width:480px;line-height:1.7;font-weight:300}
+.features-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1.5rem;margin-top:3.5rem;
+}
+.feat-card{
+  padding:2rem;border-radius:24px;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  position:relative;overflow:hidden;
+  cursor:none;
+}
+.feat-card::before{
+  content:'';position:absolute;inset:0;border-radius:24px;
+  background:linear-gradient(135deg,rgba(232,0,14,.06),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.feat-card:hover{transform:translateY(-6px);border-color:rgba(232,0,14,.35);box-shadow:0 0 40px rgba(232,0,14,.18),0 20px 40px rgba(0,0,0,.4)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(232,0,14,.14);border:1px solid rgba(232,0,14,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.4rem;
+  transition:box-shadow .3s;
+}
+.feat-card:hover .feat-icon{box-shadow:0 0 20px rgba(232,0,14,.4)}
+.feat-card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.6rem;color:var(--text)}
+.feat-card p{color:var(--text-soft);font-size:.9rem;line-height:1.65;font-weight:300}
+
+/* ─── COURSES ───────────────────────────────────────────── */
+#courses{padding:100px 6%}
+.courses-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.course-card{
+  border-radius:24px;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;cursor:none;
+  border:1px solid var(--course-card-border);
+  background:var(--surface);
+}
+.course-card:hover{transform:translateY(-8px) scale(1.015);box-shadow:0 0 50px rgba(232,0,14,.2),0 24px 50px rgba(0,0,0,.3)}
+.course-img{
+  height:170px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1a0000,#2a0505);
+}
+.course-img-inner{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+  background-size:cover;background-position:center;
+  position:relative;
+}
+.course-img-inner::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(10,10,10,.85));
+}
+.course-badge{
+  position:absolute;top:.8rem;left:.8rem;z-index:2;
+  background:linear-gradient(135deg,var(--red),#700008);
+  color:#fff;font-size:.72rem;font-weight:700;
+  padding:.28rem .7rem;border-radius:50px;letter-spacing:.04em;
+}
+.course-body{padding:1.25rem 1.4rem 1.4rem;background:var(--surface);transition:background .4s}
+.course-body h4{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.5rem;line-height:1.35;color:var(--text)}
+.course-meta{display:flex;align-items:center;justify-content:space-between;margin-top:.9rem}
+.course-tutor{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--text-soft)}
+.tutor-avatar{
+  width:35px;height:35px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#600);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;flex-shrink:0;
+}
+.stars{color:#f59e0b;font-size:.82rem;display:flex;align-items:center;gap:.25rem}
+.stars span{color:var(--text-soft);font-size:.78rem}
+
+/* ─── HOW IT WORKS ──────────────────────────────────────── */
+#how{padding:100px 6%}
+.steps-wrap{display:flex;gap:0;flex-wrap:wrap;margin-top:3.5rem;position:relative}
+.steps-wrap::before{
+  content:'';position:absolute;top:38px;left:10%;right:10%;height:1px;
+  background:linear-gradient(to right,transparent,rgba(232,0,14,.4),transparent);
+  animation:flowLine 2.5s ease-in-out infinite alternate;
+}
+@keyframes flowLine{
+  0%{background:linear-gradient(to right,transparent,rgba(232,0,14,.2),transparent)}
+  100%{background:linear-gradient(to right,transparent,rgba(255,80,80,.7),transparent)}
+}
+.step{
+  flex:1;min-width:180px;display:flex;flex-direction:column;
+  align-items:center;text-align:center;padding:1.5rem;
+  opacity:0;transform:translateY(30px);
+  transition:opacity .6s,transform .6s;
+}
+.step.visible{opacity:1;transform:none}
+.step-num-wrap{position:relative;margin-bottom:1.5rem}
+.step-num{
+  width:76px;height:76px;border-radius:50%;
+  background:rgba(232,0,14,.1);
+  border:2px solid rgba(232,0,14,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;
+  color:var(--red);position:relative;z-index:1;
+  transition:box-shadow .3s;
+}
+.step:hover .step-num{box-shadow:0 0 30px rgba(232,0,14,.5)}
+.step-num::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(232,0,14,.15);
+  animation:ringPulse 2s ease-in-out infinite;
+}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:.2}}
+.step h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.5rem;color:var(--text)}
+.step p{color:var(--step-p-color);font-size:.88rem;line-height:1.6;font-weight:300}
+
+/* ─── TESTIMONIALS ──────────────────────────────────────── */
+#testimonials{padding:100px 6%}
+.testi-track-wrap{overflow:hidden;position:relative;margin-top:3rem}
+.testi-track{display:flex;gap:1.5rem;transition:transform .5s cubic-bezier(.25,.8,.25,1)}
+.testi-card{
+  flex-shrink:0;width:360px;padding:2rem;border-radius:24px;
+  position:relative;overflow:hidden;
+}
+.testi-card::before{
+  content:'';position:absolute;top:-60%;left:-30%;width:160%;height:160%;
+  background:radial-gradient(ellipse at 30% 40%,rgba(255,255,255,.04),transparent 60%);
+  pointer-events:none;
+}
+.testi-quote{
+  font-size:2.5rem;color:var(--red);line-height:1;margin-bottom:1rem;font-family:Georgia,serif;opacity:.7;
+}
+.testi-card p{
+  font-size:.95rem;color:var(--testi-p-color);line-height:1.7;font-weight:300;margin-bottom:1.5rem;
+  font-style:italic;
+}
+.testi-person{display:flex;align-items:center;gap:.85rem}
+.testi-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#3a0000);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:700;flex-shrink:0;
+  border:2px solid rgba(232,0,14,.3);
+}
+.testi-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--text)}
+.testi-role{font-size:.8rem;color:var(--text-soft)}
+.testi-nav{display:flex;gap:1rem;margin-top:2rem}
+.testi-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--testi-btn-bg);
+  border:1px solid var(--testi-btn-border);
+  cursor:none;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;color:var(--testi-btn-color);
+  transition:background .2s,border-color .2s,box-shadow .2s,color .4s;
+}
+.testi-btn:hover{background:rgba(232,0,14,.2);border-color:rgba(232,0,14,.4);box-shadow:0 0 16px rgba(232,0,14,.25);color:#fff}
+
+/* ─── CTA SECTION ───────────────────────────────────────── */
+#cta-section{padding:80px 6%}
+.cta-inner{
+  border-radius:32px;
+  padding:70px 6%;
+  text-align:center;position:relative;overflow:hidden;
+  background:var(--cta-bg);
+  border:1px solid rgba(232,0,14,.25);
+  box-shadow:0 0 60px rgba(232,0,14,.1),inset 0 0 60px rgba(232,0,14,.03);
+  backdrop-filter:blur(16px);
+  transition:background .4s;
+}
+.cta-wave{
+  position:absolute;bottom:-1px;left:0;right:0;height:140px;
+  background:linear-gradient(to top,rgba(140,0,0,.25),transparent);
+  animation:waveAnim 4s ease-in-out infinite;
+  pointer-events:none;
+}
+.cta-wave2{
+  position:absolute;bottom:-1px;left:0;right:0;height:100px;
+  background:linear-gradient(to top,rgba(200,0,0,.15),transparent);
+  animation:waveAnim 6s ease-in-out infinite reverse;
+  pointer-events:none;
+}
+@keyframes waveAnim{
+  0%,100%{transform:scaleX(1) translateY(0)}
+  50%{transform:scaleX(1.04) translateY(-8px)}
+}
+.cta-inner h2{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:800;letter-spacing:-.03em;margin-bottom:1rem;
+  position:relative;z-index:1;color:var(--text);
+}
+.cta-inner p{color:var(--text-muted);font-size:1.05rem;margin-bottom:2.5rem;font-weight:300;position:relative;z-index:1}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.glow-badge{
+  position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--red),#600008);
+  color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.08em;
+  padding:.35rem 1.2rem;border-radius:50px;text-transform:uppercase;
+  box-shadow:0 0 20px rgba(232,0,14,.4);
+}
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer{
+  background:var(--footer-bg);backdrop-filter:blur(20px);
+  border-top:1px solid var(--footer-border);
+  padding:60px 6% 30px;
+  transition:background .4s,border-color .4s;
+}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand p{color:var(--footer-text);font-size:.9rem;line-height:1.7;margin-top:.9rem;font-weight:300;max-width:240px;transition:color .4s}
+.footer-col h5{
+  font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);
+  margin-bottom:1rem;transition:color .4s;
+}
+.footer-col a{
+  display:block;color:var(--footer-link);font-size:.88rem;
+  text-decoration:none;margin-bottom:.6rem;
+  transition:color .2s;
+}
+.footer-col a:hover{color:var(--red2)}
+.footer-bottom{
+  border-top:1px solid var(--footer-border);
+  padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+}
+.footer-bottom p{color:var(--footer-copy);font-size:.83rem;transition:color .4s}
+.social-icons{display:flex;gap:.8rem}
+.social-icon{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--social-bg);border:1px solid var(--social-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:var(--social-color);cursor:none;
+  transition:background .2s,border-color .2s,color .2s,box-shadow .2s;
+  text-decoration:none;
+}
+.social-icon:hover{background:rgba(232,0,14,.18);border-color:rgba(232,0,14,.4);color:var(--red2);box-shadow:0 0 16px rgba(232,0,14,.3)}
+
+/* ─── ANIMATIONS ────────────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* shimmer on glass cards */
+@keyframes shimmer{
+  0%{background-position:-400px 0}
+  100%{background-position:400px 0}
+}
+.shimmer-card::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);
+  background-size:400px 100%;
+  animation:shimmer 3.5s infinite linear;pointer-events:none;
+}
+
+/* ─── LIGHT MODE SPECIFIC OVERRIDES ────────────────────── */
+html.light .blob1{background:radial-gradient(circle,rgba(232,0,14,.55) 0%,transparent 70%)}
+html.light .blob2{background:radial-gradient(circle,rgba(255,80,80,.35) 0%,transparent 70%)}
+html.light .blob3{background:radial-gradient(circle,rgba(180,0,20,.3) 0%,transparent 70%)}
+html.light .blob{opacity:.22}
+html.light #particles-canvas{opacity:.3}
+html.light .section-title{color:var(--text)}
+html.light .hero-title{color:var(--text)}
+html.light .feat-card:hover{box-shadow:0 0 32px rgba(232,0,14,.14),0 16px 32px rgba(0,0,0,.1)}
+html.light .course-img-inner::after{background:linear-gradient(to bottom,transparent 40%,rgba(240,240,242,.9))}
+html.light .shimmer-card::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);background-size:400px 100%}
+html.light .step-num{background:rgba(232,0,14,.08);border-color:rgba(232,0,14,.35)}
+html.light .steps-wrap::before{background:linear-gradient(to right,transparent,rgba(232,0,14,.3),transparent)}
+html.light .testi-card::before{background:radial-gradient(ellipse at 30% 40%,rgba(255,255,255,.6),transparent 60%)}
+html.light .cta-wave{background:linear-gradient(to top,rgba(200,0,0,.12),transparent)}
+html.light .cta-wave2{background:linear-gradient(to top,rgba(232,0,14,.08),transparent)}
+html.light .hero-badge{background:rgba(232,0,14,.09);border-color:rgba(232,0,14,.25)}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+@media(max-width:900px){
+  .nav-links,.btn-signup{display:none}
+  .hamburger{display:flex}
+  .hero-float-wrap{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem}
+  .steps-wrap::before{display:none}
+  .nav-right{gap:.6rem}
+}
+@media(max-width:600px){
+  h1.hero-title{font-size:2.6rem}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- PARTICLES -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a class="logo" href="#">
+    <div class="logo-dot"></div>
+    My<span>ClassRoom</span>.LK
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#features">Tutors</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#how">About</a></li>
+    <li><a href="#cta-section">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode" aria-label="Toggle theme">
+      <div class="theme-toggle-thumb">
+        <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+      </div>
+    </button>
+    <button class="btn-signup">Sign Up</button>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#hero">Home</a>
+  <a href="#features">Tutors</a>
+  <a href="#courses">Courses</a>
+  <a href="#how">About</a>
+  <a href="#testimonials">Testimonials</a>
+  <a href="#cta-section">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blob-wrap">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Sri Lanka's #1 Learning Platform
+    </div>
+    <h1 class="hero-title">Bright<br>Your <em>Feature </em>With Us.</h1>
+    <p class="hero-sub">Connect with expert tutors, access premium courses, and unlock your potential from anywhere in Sri Lanka — and beyond.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary">Get Started →</button>
+      <button class="btn-glass">Browse Courses</button>
+    </div>
+  </div>
+
+  <div class="hero-float-wrap">
+    <div class="glass glass-red hero-float-card shimmer-card" style="position:relative">
+      <div class="hf-stat">
+        <div class="hf-icon">🎓</div>
+        <div>
+          <div class="hf-num">1000+</div>
+          <div class="hf-label">Active Students</div>
+        </div>
+      </div>
+      <div class="hf-stat">
+        <div class="hf-icon">👨‍🏫</div>
+        <div>
+          <div class="hf-num">10+</div>
+          <div class="hf-label">Expert Tutors</div>
+        </div>
+      </div>
+      <div class="hf-stat">
+        <div class="hf-icon">📚</div>
+        <div>
+          <div class="hf-num">50+</div>
+          <div class="hf-label">Live Courses</div>
+        </div>
+      </div>
+      <div class="hf-stat">
+        <div class="hf-icon">⭐</div>
+        <div>
+          <div class="hf-num">4.9 / 5</div>
+          <div class="hf-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="reveal section-label">Why Choose Us</div>
+  <div class="reveal reveal-delay-1 section-title">Everything You Need<br>to Excel</div>
+  <div class="reveal reveal-delay-2 section-sub">From live sessions to on-demand content, MyClassRoom.LK is built for the modern learner.</div>
+
+  <div class="features-grid">
+    <div class="glass feat-card shimmer-card reveal">
+      <div class="feat-icon">🎯</div>
+      <h3>Expert Tutors</h3>
+      <p>Handpicked educators with verified credentials and years of proven teaching experience across all subjects.</p>
+    </div>
+    <div class="glass feat-card shimmer-card reveal reveal-delay-1">
+      <div class="feat-icon">⚡</div>
+      <h3>Interactive Lessons</h3>
+      <p>Live classes, quizzes, whiteboards, and real-time collaboration tools that make learning truly immersive.</p>
+    </div>
+    <div class="glass feat-card shimmer-card reveal reveal-delay-2">
+      <div class="feat-icon">📱</div>
+      <h3>Learn Anywhere</h3>
+      <p>Mobile-first platform lets you study on the go. Download lessons for offline access whenever you need.</p>
+    </div>
+    <div class="glass feat-card shimmer-card reveal reveal-delay-3">
+      <div class="feat-icon">🏆</div>
+      <h3>Certified Courses</h3>
+      <p>Earn recognized certificates on course completion, boosting your resume and academic portfolio instantly.</p>
+    </div>
+    <div class="glass feat-card shimmer-card reveal">
+      <div class="feat-icon">🔍</div>
+      <h3>Smart Analytics</h3>
+      <p>Track your learning progress with detailed insights and personalized recommendations powered by AI.</p>
+    </div>
+    <div class="glass feat-card shimmer-card reveal reveal-delay-1">
+      <div class="feat-icon">💬</div>
+      <h3>1-on-1 Mentoring</h3>
+      <p>Book private sessions with top tutors at flexible timings — tailored entirely to your learning pace.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="courses-header">
+    <div>
+      <div class="reveal section-label">Popular Courses</div>
+      <div class="reveal reveal-delay-1 section-title">Start Learning<br>What Matters</div>
+    </div>
+    <button class="btn-glass reveal" style="white-space:nowrap">View All Courses →</button>
+  </div>
+
+  <div class="courses-grid">
+
+    <div class="course-card glass reveal">
+      <div class="course-img">
+        <div class="course-img-inner" style="background:linear-gradient(135deg,#1a0505 0%,#2d0a0a 100%);font-size:3rem">🧮</div>
+        <div class="course-badge">A/L Maths</div>
+      </div>
+      <div class="course-body">
+        <h4>Advanced Mathematics — Combined Maths Full Course</h4>
+        <div class="course-meta">
+          <div class="course-tutor">
+            <div class="tutor-avatar">AK</div>
+            Mr. Amal K.
+          </div>
+          <div class="stars">★★★★★ <span>4.9</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card glass reveal reveal-delay-1">
+      <div class="course-img">
+        <div class="course-img-inner" style="background:linear-gradient(135deg,#0a0a1a 0%,#10102d 100%);font-size:3rem">⚛️</div>
+        <div class="course-badge">A/L Physics</div>
+      </div>
+      <div class="course-body">
+        <h4>Physics — Mechanics, Waves & Modern Physics</h4>
+        <div class="course-meta">
+          <div class="course-tutor">
+            <div class="tutor-avatar" style="background:linear-gradient(135deg,#e80,#600)">SR</div>
+            Ms. Sanduni R.
+          </div>
+          <div class="stars">★★★★★ <span>4.8</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card glass reveal reveal-delay-2">
+      <div class="course-img">
+        <div class="course-img-inner" style="background:linear-gradient(135deg,#0a150a 0%,#0d1f0d 100%);font-size:3rem">🧬</div>
+        <div class="course-badge">A/L Biology</div>
+      </div>
+      <div class="course-body">
+        <h4>Biology — සෛලයේ සැකැස්ම</h4>
+        <div class="course-meta">
+          <div class="course-tutor">
+            <div class="tutor-avatar" style="background:linear-gradient(135deg,#0a0,#040)"><img class="tutor-avatar" src="Assests/Tutors/inoka sir.jpg"></div>
+            Mr. Inoka Bandara
+          </div>
+          <div class="stars">★★★★★ <span>5.0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card glass reveal">
+      <div class="course-img">
+        <div class="course-img-inner" style="background:linear-gradient(135deg,#150a14 0%,#200d1f 100%);font-size:3rem">💻</div>
+        <div class="course-badge">O/L ICT</div>
+      </div>
+      <div class="course-body">
+        <h4>ICT — Programming, Databases & Web Design</h4>
+        <div class="course-meta">
+          <div class="course-tutor">
+            <div class="tutor-avatar" style="background:linear-gradient(135deg,#90f,#306)"><img class="tutor-avatar" src="Assests/Tutors/nethsara sir.jpg"></div>
+            Mr. Nethsara Marasinghe
+          </div>
+          <div class="stars">★★★★★ <span>4.7</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card glass reveal reveal-delay-1">
+      <div class="course-img">
+        <div class="course-img-inner" style="background:linear-gradient(135deg,#1a1000 0%,#2a1800 100%);font-size:3rem">⚗️</div>
+        <div class="course-badge">A/L Accounting</div>
+      </div>
+      <div class="course-body">
+        <h4>Accounting — මූල්‍ය තත්ත්ව ප්‍රකාශ</h4>
+        <div class="course-meta">
+          <div class="course-tutor">
+            <div class="tutor-avatar" style="background:linear-gradient(135deg,#f80,#640)"><img class="tutor-avatar" src="Assests/Tutors/dinuka sir.jpg"></div>
+            Mr. Dinuka Roshan
+          </div>
+          <div class="stars">★★★★★ <span>4.9</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card glass reveal reveal-delay-2">
+      <div class="course-img">
+        <div class="course-img-inner" style="background:linear-gradient(135deg,#00101a 0%,#00192a 100%);font-size:3rem">📖</div>
+        <div class="course-badge">O/L English</div>
+      </div>
+      <div class="course-body">
+        <h4>English — Grammar, Writing & Comprehension</h4>
+        <div class="course-meta">
+          <div class="course-tutor">
+            <div class="tutor-avatar" style="background:linear-gradient(135deg,#08f,#046)">PM</div>
+            Ms. Priya M.
+          </div>
+          <div class="stars">★★★★★ <span>4.8</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="reveal section-label">Process</div>
+  <div class="reveal reveal-delay-1 section-title">How It Works</div>
+  <div class="reveal reveal-delay-2 section-sub">Start learning in four simple steps — no complexity, just results.</div>
+
+  <div class="steps-wrap">
+    <div class="step">
+      <div class="step-num-wrap">
+        <div class="step-num">01</div>
+      </div>
+      <h3>Create Account</h3>
+      <p>Sign up in under 60 seconds. No credit card required for your free trial period.</p>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap">
+        <div class="step-num">02</div>
+      </div>
+      <h3>Choose Courses</h3>
+      <p>Browse hundreds of courses across all subjects and grades. Filter by tutor, rating, or topic.</p>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap">
+        <div class="step-num">03</div>
+      </div>
+      <h3>Learn Live</h3>
+      <p>Join live classes or watch on-demand. Interact with tutors and peers in real time.</p>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap">
+        <div class="step-num">04</div>
+      </div>
+      <h3>Get Certified</h3>
+      <p>Complete assessments, earn your certificate, and showcase your achievement to the world.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal section-label">Testimonials</div>
+  <div class="reveal reveal-delay-1 section-title">Loved by Learners</div>
+
+  <div class="testi-track-wrap reveal">
+    <div class="testi-track" id="testiTrack">
+
+      <div class="testi-card glass">
+        <div class="testi-quote">"</div>
+        <p>MyClassRoom.LK completely changed how I prepared for my A/L exams. The maths lessons are incredibly clear and the tutors respond fast. I scored 3As — I couldn't have done it without this platform.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">DS</div>
+          <div>
+            <div class="testi-name">Dilanka S.</div>
+            <div class="testi-role">A/L Student, Colombo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card glass">
+        <div class="testi-quote">"</div>
+        <p>As a working parent, the flexible scheduling was a lifesaver. My daughter now attends live physics sessions from home and her confidence has skyrocketed. Absolute game changer for Sri Lankan students.</p>
+        <div class="testi-person">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#c05,#500)">RP</div>
+          <div>
+            <div class="testi-name">Renuka P.</div>
+            <div class="testi-role">Parent, Kandy</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card glass">
+        <div class="testi-quote">"</div>
+        <p>I joined as a tutor three months ago and already have over 200 enrolled students. The platform's tools — whiteboards, analytics, chat — are genuinely world-class. Proud to be part of this community.</p>
+        <div class="testi-person">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#08a,#046)">AJ</div>
+          <div>
+            <div class="testi-name">Ajith J.</div>
+            <div class="testi-role">Chemistry Tutor, Galle</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card glass">
+        <div class="testi-quote">"</div>
+        <p>The interface is stunning and the content quality is exceptional. I've used many online platforms but MyClassRoom.LK feels like it was built specifically for us — students who want to truly understand, not just pass.</p>
+        <div class="testi-person">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#850,#430)">NM</div>
+          <div>
+            <div class="testi-name">Nathasha M.</div>
+            <div class="testi-role">O/L Student, Negombo</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="testi-nav">
+      <button class="testi-btn" id="testiPrev">←</button>
+      <button class="testi-btn" id="testiNext">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-section">
+  <div class="cta-inner reveal">
+    <div class="glow-badge">🔥 Join 12,000+ Students</div>
+    <br><br>
+    <h2>Start Your Learning<br>Journey Today</h2>
+    <p>No commitment required. Access 50+ free lessons the moment you sign up.</p>
+    <div class="cta-btns">
+      <button class="btn-primary" style="font-size:1.05rem;padding:1rem 2.5rem">Get Started Free →</button>
+      <button class="btn-glass">Talk to a Tutor</button>
+    </div>
+    <div class="cta-wave"></div>
+    <div class="cta-wave2"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="logo" href="#" style="font-size:1.2rem">
+        <div class="logo-dot"></div>
+        My<span>ClassRoom</span>.LK
+      </a>
+      <p>Sri Lanka's most trusted online learning platform, connecting students with expert tutors since 2021.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Platform</h5>
+      <a href="#">Courses</a>
+      <a href="#">Tutors</a>
+      <a href="#">Live Classes</a>
+      <a href="#">Certificates</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About Us</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <a href="#">Help Centre</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 MyClassRoom.LK. All rights reserved.</p>
+    <div class="social-icons">
+      <a class="social-icon" title="Facebook">f</a>
+      <a class="social-icon" title="Instagram">ig</a>
+      <a class="social-icon" title="YouTube">▶</a>
+      <a class="social-icon" title="WhatsApp">w</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─── CURSOR ─────────────────────────────── */
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('button,a,.feat-card,.course-card,.testi-btn,.social-icon').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(232,0,14,.7)'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';ring.style.width='38px';ring.style.height='38px';ring.style.borderColor='rgba(255,40,40,.45)'});
+});
+
+/* ─── NAVBAR SCROLL ──────────────────────── */
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
+
+/* ─── HAMBURGER ──────────────────────────── */
+const ham=document.getElementById('hamburger'),mob=document.getElementById('mobile-nav');
+ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open')});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open')}));
+
+/* ─── SCROLL REVEAL ──────────────────────── */
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ─── STEPS REVEAL ───────────────────────── */
+const stepObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const steps=e.target.querySelectorAll('.step');
+      steps.forEach((s,i)=>{setTimeout(()=>s.classList.add('visible'),i*150)});
+    }
+  });
+},{threshold:.1});
+const stepsWrap=document.querySelector('.steps-wrap');
+if(stepsWrap)stepObs.observe(stepsWrap);
+
+/* ─── TESTIMONIALS CAROUSEL ──────────────── */
+let testiIdx=0;
+const track=document.getElementById('testiTrack');
+const cards=track.querySelectorAll('.testi-card');
+function getVisible(){return window.innerWidth<700?1:window.innerWidth<1000?2:3}
+function setTesti(){
+  const cardW=cards[0].offsetWidth+24;
+  const maxIdx=Math.max(0,cards.length-getVisible());
+  testiIdx=Math.min(testiIdx,maxIdx);
+  track.style.transform=`translateX(-${testiIdx*cardW}px)`;
+}
+document.getElementById('testiNext').addEventListener('click',()=>{
+  testiIdx=Math.min(testiIdx+1,cards.length-getVisible());setTesti();
+});
+document.getElementById('testiPrev').addEventListener('click',()=>{
+  testiIdx=Math.max(testiIdx-1,0);setTesti();
+});
+window.addEventListener('resize',setTesti);
+
+/* ─── THEME TOGGLE ───────────────────────── */
+var pts=[];
+const html=document.documentElement;
+const themeBtn=document.getElementById('themeToggle');
+const themeIcon=document.getElementById('themeIcon');
+const LIGHT_KEY='mclr-theme';
+
+function applyTheme(mode){
+  if(mode==='light'){
+    html.classList.add('light');
+    themeIcon.textContent='🌙';
+    themeBtn.setAttribute('aria-label','Switch to dark mode');
+  } else {
+    html.classList.remove('light');
+    themeIcon.textContent='☀️';
+    themeBtn.setAttribute('aria-label','Switch to light mode');
+  }
+  localStorage.setItem(LIGHT_KEY,mode);
+  recolorParticles();
+}
+
+// Load saved preference, fallback to dark
+const saved=localStorage.getItem(LIGHT_KEY)||'dark';
+applyTheme(saved);
+
+themeBtn.addEventListener('click',()=>{
+  applyTheme(html.classList.contains('light')?'dark':'light');
+});
+
+/* ─── PARTICLES ──────────────────────────── */
+function recolorParticles(){
+  const isLight=html.classList.contains('light');
+  pts.forEach(p=>{
+    p.col=Math.random()>.65
+      ?`rgba(232,0,14,${Math.random()*.45+.1})`
+      :isLight
+        ?`rgba(0,0,0,${Math.random()*.06+.02})`
+        :`rgba(255,255,255,${Math.random()*.12+.04})`;
+  });
+}
+
+(function(){
+  const c=document.getElementById('particles-canvas');
+  const ctx=c.getContext('2d');
+  let W,H;
+  // pts is declared globally above
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  const isLight=html.classList.contains('light');
+  for(let i=0;i<55;i++) pts.push({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+    r:Math.random()*1.8+.4,
+    col:Math.random()>.65
+      ?`rgba(232,0,14,${Math.random()*.5+.1})`
+      :isLight?`rgba(0,0,0,.04)`:`rgba(255,255,255,${Math.random()*.12+.04})`
+  });
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const light=html.classList.contains('light');
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.col;ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<110){
+          ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+          const alpha=light?.015:.04;
+          ctx.strokeStyle=`rgba(232,0,14,${alpha*(1-dist/110)})`;ctx.lineWidth=.6;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─── PARALLAX HERO ──────────────────────── */
+window.addEventListener('scroll',()=>{
+  const blobs=document.querySelectorAll('.blob');
+  const y=scrollY;
+  blobs.forEach((b,i)=>b.style.transform=`translateY(${y*(i%2===0?.08:.06)}px)`);
+});
+
+/* ─── RIPPLE BUTTONS ─────────────────────── */
+document.querySelectorAll('.btn-primary').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    const r=document.createElement('span');
+    const rect=this.getBoundingClientRect();
+    r.style.cssText=`position:absolute;border-radius:50%;background:rgba(255,255,255,.3);
+      width:10px;height:10px;left:${e.clientX-rect.left-5}px;top:${e.clientY-rect.top-5}px;
+      animation:ripple .55s linear forwards;pointer-events:none;`;
+    const s=document.createElement('style');
+    s.textContent='@keyframes ripple{to{transform:scale(28);opacity:0}}';
+    document.head.appendChild(s);
+    this.appendChild(r);
+    setTimeout(()=>r.remove(),600);
+  });
+});
+</script>
+</body>
+</html>
